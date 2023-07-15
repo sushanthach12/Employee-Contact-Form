@@ -1,12 +1,13 @@
 /* eslint-disable prettier/prettier */
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, JoinColumn } from 'typeorm'
+import { Contacts } from '../contacts/Contacts.entity';
 
 @Entity()
 export class Employee {
 
     @PrimaryGeneratedColumn({ // to show in db we can use the object of the decorator
         type: 'bigint',
-        name: 'emp_id', // db name
+        name: 'emp_id',
     })
     employeeId: number;
 
@@ -59,43 +60,9 @@ export class Employee {
     })
     state: string;
 
-    
-    @Column({
-        name: 'primary_emergency_name',
-        nullable: false,
-    })
-    primaryemergencyname: string;
 
-    
-    @Column({
-        name: 'primary_emergency_phone',
-        nullable: false,
-    })
-    primaryemergencyphone: string;
-
-    @Column({
-        name: 'primary_emergency_relationship',
-        nullable: false,
-    })
-    primaryemergencyrelationship: string;
-
-    @Column({
-        name: 'secondary_emergency_name',
-        nullable: false,
-    })
-    secondaryemergencyname: string;
-
-    @Column({
-        name: 'secondary_emergency_phone',
-        nullable: false,
-    })
-    secondaryemergencyphone: string;
-
-    
-    @Column({
-        name: 'secondary_emergency_relationship',
-        nullable: false,
-    })
-    secondaryemergencyrelationship: string;
+    @OneToOne(() => Contacts)
+    @JoinColumn()
+    contactDetails: Contacts
 
 }

@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import entities from './Typeorm';
 import { EmployeeModule } from './employee/employee.module';
+import { ContactsModule } from './contacts/contacts.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { EmployeeModule } from './employee/employee.module';
       envFilePath: '.env.local',
       isGlobal: true,
     }),
+    ContactsModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST,
@@ -25,4 +27,4 @@ import { EmployeeModule } from './employee/employee.module';
     }),
   ],
 })
-export class AppModule {}
+export class AppModule { }
