@@ -34,20 +34,31 @@ export class EmployeeService {
 
     async getEmployee(id: number): Promise<Employee> {
         const employee = await this.employeeRepository.createQueryBuilder('employee').where('employee.employeeId = :id', { id }).getOne();
-        
+
         return employee;
     }
 
     async updateEmployee(id: number, newData: Partial<Employee>): Promise<Employee> {
         const employee = await this.employeeRepository.createQueryBuilder('employee').where('employee.employeeId = :id', { id }).getOne();
-        if(!employee){
+        if (!employee) {
             return Promise.reject("Employee Not Found")
         }
-        
+
         Object.assign(employee, newData);
 
         const updatedUser = await this.employeeRepository.save(employee);
 
         return updatedUser;
+    }
+
+    async deleteEmployee(empid: number) {
+        const employee = await this.employeeRepository.createQueryBuilder('employee').where('employee.employeeId = :empid', { empid }).getOne();
+
+        if (!employee) {
+            return { "Error": true, "Msg": "Not Found" }
+        }
+        await this.employeeRepository.remove(employee);
+
+        return { "Success": true, "Msg": "Deleted Successfully" }
     }
 }

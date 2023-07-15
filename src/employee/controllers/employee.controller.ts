@@ -1,16 +1,16 @@
 /* eslint-disable prettier/prettier */
-import { 
-    Body, 
-    Controller, 
-    DefaultValuePipe, 
-    HttpException, 
-    HttpStatus, 
-    Inject, 
-    ParseIntPipe, 
-    Post, 
-    Query, 
-    UsePipes, 
-    ValidationPipe 
+import {
+    Body,
+    Controller,
+    DefaultValuePipe,
+    HttpException,
+    HttpStatus,
+    Inject,
+    ParseIntPipe,
+    Post,
+    Query,
+    UsePipes,
+    ValidationPipe
 } from '@nestjs/common';
 import { EmployeeService } from '../services/employee.service';
 import { CreateEmployee } from '../dto/CreateEmployee.dto';
@@ -77,7 +77,16 @@ export class EmployeeController {
     async updateEmployee(@Body() employeUpdate: EmployeeUpdate) {
         const res = await this.employeeService.updateEmployee(employeUpdate.empid, employeUpdate.employee);
         if (res) return { "Success": true, "Employee": res };
-        else if(res === undefined) return new HttpException({ "Error": true, "Msg": "Invalid Data Entry" }, HttpStatus.NOT_FOUND);
+        else if (res === undefined) return new HttpException({ "Error": true, "Msg": "Invalid Data Entry" }, HttpStatus.NOT_FOUND);
+        else return new HttpException({ "Error": true, "Msg": "Internal Server Error" }, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Post('/delete')
+    async deleteEmployee(@Query('empid', ParseIntPipe) empid: number) {
+        const res = await this.employeeService.deleteEmployee(empid);
+
+        if (res.Success) return { "Success": true, "Msg": res };
+        else if (res.Error) return new HttpException({ "Error": true, "Msg": "Invalid Data Entry" }, HttpStatus.NOT_FOUND);
         else return new HttpException({ "Error": true, "Msg": "Internal Server Error" }, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
