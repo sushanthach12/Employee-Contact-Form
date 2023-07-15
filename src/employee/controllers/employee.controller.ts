@@ -16,6 +16,7 @@ import { EmployeeService } from '../services/employee.service';
 import { CreateEmployee } from '../dto/CreateEmployee.dto';
 import { PaginationOptions } from '../types/PaginationOptions';
 import { EmployeeUpdate } from '../dto/EmployeUpdate.dto';
+import { EmployeeUpdateContact } from '../dto/EmployeeUpdateContact.dto';
 
 @Controller('employee')
 export class EmployeeController {
@@ -76,6 +77,18 @@ export class EmployeeController {
     @UsePipes(ValidationPipe)
     async updateEmployee(@Body() employeUpdate: EmployeeUpdate) {
         const res = await this.employeeService.updateEmployee(employeUpdate.empid, employeUpdate.employee);
+        if (res) return { "Success": true, "Employee": res };
+        else if (res === undefined) return new HttpException({ "Error": true, "Msg": "Invalid Data Entry" }, HttpStatus.NOT_FOUND);
+        else return new HttpException({ "Error": true, "Msg": "Internal Server Error" }, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    // Post : /api/employee/updateContact
+    //Pass empid as query param
+    @Post('/updateContact')
+    @UsePipes(ValidationPipe)
+    async updateEmployeeContact(@Body() employeUpdate: EmployeeUpdateContact) {
+        const res = await this.employeeService.updateContact(employeUpdate.empid, employeUpdate.contact);
+        
         if (res) return { "Success": true, "Employee": res };
         else if (res === undefined) return new HttpException({ "Error": true, "Msg": "Invalid Data Entry" }, HttpStatus.NOT_FOUND);
         else return new HttpException({ "Error": true, "Msg": "Internal Server Error" }, HttpStatus.INTERNAL_SERVER_ERROR);
