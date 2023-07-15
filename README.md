@@ -1,5 +1,14 @@
 ## Employee Contact Form Backend
 
+    This is a api to<br>
+    <ul>
+        <li>Create Employee with multiple contact details (Relationship mapping)</li>
+        <li>List Employee (with pagination)</li>
+        <li>Update Employee</li>
+        <li>Delete Employee</li>
+        <li>Get Employee</li>
+    </ul>
+
 
 
 ## Installation
