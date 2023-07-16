@@ -11,7 +11,6 @@ The API performs the following operations:
 </ul>
 
 <br>
-    It took me around 4-5 hours to complete the assignment.
 
 
 ## Installation
